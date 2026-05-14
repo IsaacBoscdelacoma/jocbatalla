@@ -3,12 +3,14 @@ export class Character {
     private _hp: number;
     private _attackPower: number;
     private _defense: number;
+    private _img: string;
 
-    constructor(name: string, hp: number, attackPower: number, defense: number) {
+    constructor(name: string, hp: number, attackPower: number, defense: number, img: string) {
         this._name = name;
         this._hp = hp;
         this._attackPower = attackPower;
         this._defense = defense;
+        this._img = img;
     }
 
     // GETTERS I SETTERS
@@ -43,6 +45,14 @@ export class Character {
 
     set defense(newDefense: number) {
         this._defense = newDefense;
+    }
+
+    get img(): string {
+        return this._img;
+    }
+
+    set img(newImg: string) {
+        this._img = newImg;
     }
 
     // METODES

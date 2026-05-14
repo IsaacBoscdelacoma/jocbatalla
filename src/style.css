@@ -2,16 +2,255 @@
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', 'Arial', sans-serif;
+  box-sizing: border-box;
 }
 
 body {
   background-image: url("img/fondo2.webp");
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 5, 25, 0.75);
+  z-index: 0;
+}
+
+h1,
+#divTurnInfo,
+#arena {
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
-  color: white;
+  margin: 20px 0 10px;
+  color: #e8c94a;
+  text-shadow: 0 0 18px rgba(232, 201, 74, 0.7);
+  font-size: 2rem;
+}
+
+#divTurnInfo {
+  background: rgba(232, 201, 74, 0.12);
+  border: 1px solid rgba(139, 137, 128, 0.3);
+  border-radius: 10px;
+  padding: 10px 20px;
+  display: inline-block;
+  color: #e8c94a;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  min-width: 300px;
+}
+
+/* Arena */
+#arena {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* Zones de jugador */
+#divPlayer1,
+#divPlayer2 {
+  flex: 1;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+/* Títol jugador */
+.player-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ccc;
+  margin-bottom: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.player-title.active-player {
+  color: #e8c94a;
+  background: rgba(232, 201, 74, 0.15);
+  text-shadow: 0 0 10px rgba(232, 201, 74, 0.5);
+}
+
+/* Fila de personatges */
+.characters-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Targeta de personatge */
+.character-card {
+  background: rgba(60, 20, 100, 0.4);
+  border: 2px solid rgba(123, 47, 247, 0.3);
+  border-radius: 12px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.character-card.active-char {
+  border-color: #e8c94a;
+  box-shadow: 0 0 16px rgba(232, 201, 74, 0.5);
+  transform: scale(1.05);
+}
+
+.character-card.dead {
+  opacity: 0.3;
+  filter: grayscale(100%);
+}
+
+/* Imatge del personatge */
+.char-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.char-img-dead {
+  filter: grayscale(100%);
+}
+
+.char-name {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #ddd;
   text-align: center;
-  margin-top: 50px;
+}
+
+/* Barra de vida */
+.hp-bar-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hp-bar {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.hp-high {
+  background: #2ecc71;
+}
+
+.hp-mid {
+  background: #f39c12;
+}
+
+.hp-low {
+  background: #e74c3c;
+}
+
+.char-hp {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.char-stats {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.75rem;
+  color: #ccc;
+  width: 100%;
+}
+
+/* Centre: botó i log */
+#center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 180px;
+  padding-top: 10px;
+}
+
+#btnAttack {
+  background: rgb(202, 44, 20);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.7);
+}
+
+#btnAttack:hover {
+  box-shadow: 0 8px 22px rgba(255, 0, 0, 0.7);
+}
+
+#btnAttack:disabled {
+  background: #444;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.5;
+}
+
+/* Log de combat */
+#divCombatLog {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 0.78rem;
+  color: #bbb;
+  text-align: left;
+}
+
+.log-entry {
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  #arena {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #divPlayer1,
+  #divPlayer2 {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #center {
+    width: 100%;
+  }
 }
